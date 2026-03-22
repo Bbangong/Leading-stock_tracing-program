@@ -106,7 +106,7 @@ def process_leading_stocks(token):
             rate = round(rate, 2)
 
             # 테스트용 100억 기준
-            if amount >= 200000 and rate >= 4.0:
+            if amount >= 20000 and rate >= 4.0:
                 price, mkt_cap, sector = get_stock_detail(token, code)
                 
                 # 시총이 0이면 리스트 API 데이터에서 한 번 더 시도
@@ -150,14 +150,14 @@ def process_leading_stocks(token):
 
 # --- [4. 실행 메인 루프 (테스트 모드)] ---
 async def main():
-    print(f"🔥 실전 주도주 엔진 가동! (지금은 테스트 모드입니다)")
+    print(f"🚀 [실전 모드] 주도주 엔진 가동! 성투하세요!")
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
 
     while True:
         now = datetime.now()
         
-        # 🚨 [시간 체크 해제] 장 시간이 아니어도 무조건 실행되게 설정함!
-        if True: 
+        # 🚨 [시간 설정 구간] -> true로 바뀌면 계쏙 수집함.
+        if now.weekday() < 5 and (9, 0) <= (now.hour, now.minute) <= (15, 30):
             print(f"\n[ {now.strftime('%H:%M:%S')} ] 데이터 수집 중...")
             token = get_access_token()
             

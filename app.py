@@ -15,7 +15,7 @@ st.markdown("""
 
 # 3. 제목
 st.markdown("<h2 style='text-align: center;'>🔥 실시간 거래대금 주도주 🔥</h2>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: gray;'>3,000억 이상 & 4% 이상 상승 (3분 자동 갱신)</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: gray;'>200억 이상 & 4% 이상 상승 (3분 자동 갱신)</p>", unsafe_allow_html=True)
 st.divider()
 
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQygCBp6noqOTPG2tKVFDrB_PrZsRoDSHQQt9bwF8ZRi-pwiBzVrpKClIPLBBOFCnNWJwHabzkrUzgF/pub?gid=0&single=true&output=csv"
