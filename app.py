@@ -5,11 +5,20 @@ import time
 # 화면 꽉 차게 쓰기 위한 설정
 st.set_page_config(page_title="실시간 주도주", page_icon="🔥", layout="centered")
 
+# 🔥 전체 앱 배경색을 연한 아이보리(#FDFBF0)로 덮어버리는 특수 코드
+st.markdown("""
+<style>
+.stApp {
+    background-color: #FDFBF0;
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown("### 🔥 거래대금 상위 주도섹터")
 st.caption("거래대금 상위 & 4% 이상 상승종목 (3분 자동 갱신)")
 st.divider()
 
-# ⭐ 사용자님의 구글 엑셀 CSV 링크 (여기에 꼭 다시 넣어주세요!)
+# ⭐ 사용자님의 구글 엑셀 CSV 링크
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQygCBp6noqOTPG2tKVFDrB_PrZsRoDSHQQt9bwF8ZRi-pwiBzVrpKClIPLBBOFCnNWJwHabzkrUzgF/pub?gid=0&single=true&output=csv"
 
 try:
@@ -35,18 +44,19 @@ try:
             rate = pd.to_numeric(str(row.get('등락률', 0)).replace('%', ''), errors='coerce')
             rate = 0 if pd.isna(rate) else rate
 
-            color = "#d32f2f" if rate > 0 else "#1976d2" if rate < 0 else "#333"
-            bg_color = "#ffebee" if rate > 0 else "#e3f2fd" if rate < 0 else "#f5f5f5"
+            # 남색 배경에 맞춰 등락률 박스 색상도 밝고 세련되게 조정
+            color = "#ff4d4d" if rate > 0 else "#64b5f6" if rate < 0 else "#ffffff"
+            bg_color = "rgba(255, 77, 77, 0.15)" if rate > 0 else "rgba(100, 181, 246, 0.15)" if rate < 0 else "rgba(255,255,255,0.1)"
             sign = "+" if rate > 0 else ""
 
-            # 디자인 구역: 종목명 밑 섹터, 초록색 섹터, 빨간색 현재가, 아이보리 배경
+            # 🔥 디자인 구역: 진한 남색 바탕(#15202B), 흰색 글씨, 밝은 초록색/빨간색 포인트
             html_content += f"""
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #e0e0e0; background-color: #FDFBF0; box-shadow: 2px 2px 5px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #0f171e; background-color: #15202B; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
                 <div style="flex: 1.5; text-align: left;">
-                    <div style="font-size: 16px; font-weight: 900; color: #222;">{name}</div>
-                    <div style="font-size: 12px; font-weight: 700; color: #2E8B57; margin-top: 3px;">{sector}</div>
+                    <div style="font-size: 16px; font-weight: 900; color: #ffffff;">{name}</div>
+                    <div style="font-size: 12px; font-weight: 700; color: #00E676; margin-top: 3px;">{sector}</div>
                 </div>
-                <div style="flex: 1; text-align: right; font-size: 16px; font-weight: 800; color: #d32f2f;">
+                <div style="flex: 1; text-align: right; font-size: 16px; font-weight: 800; color: #ff4d4d;">
                     {price:,.0f}
                 </div>
                 <div style="flex: 1; text-align: right;">
@@ -54,7 +64,7 @@ try:
                         {sign}{rate:.2f}%
                     </span>
                 </div>
-                <div style="flex: 1; text-align: right; font-size: 14px; color: #555; font-weight: 700;">
+                <div style="flex: 1; text-align: right; font-size: 14px; color: #b0bec5; font-weight: 700;">
                     {volume:,.0f}억
                 </div>
             </div>
