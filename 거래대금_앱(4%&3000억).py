@@ -64,7 +64,7 @@ try:
                     </span>
                 </div>
                 
-                <div style="flex: 0.8; text-align: right; font-size: 13px; color: #FFFF00; font-weight: 700; white-space: nowrap;">
+                <div style="flex: 0.8; text-align: right; font-size: 13px; color: #FFD700; font-weight: 700; white-space: nowrap;">
                     {volume:,.0f}억
                 </div>
             </div>
