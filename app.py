@@ -49,27 +49,28 @@ try:
             sign = "+" if rate > 0 else ""
 
             # HTML 카드 레이아웃 (남색 배경 #15202B)
-            card = f"""
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #0f171e; background-color: #15202B; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
-                <div style="flex: 1.5; text-align: left;">
-                    <div style="font-size: 16px; font-weight: 900; color: #ffffff;">
-                        {name} <span style="font-size: 12px; color: #FF9800; margin-left: 4px;">{market_cap:,.0f}억</span>
-                    </div>
-                    <div style="font-size: 12px; font-weight: 700; color: #00E676; margin-top: 3px;">{sector}</div>
-                </div>
-                <div style="flex: 1; text-align: right; font-size: 16px; font-weight: 800; color: #ff4d4d;">
-                    {price:,.0f}
-                </div>
-                <div style="flex: 1; text-align: right;">
-                    <span style="color: {color}; background-color: {bg_color}; padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: bold;">
-                        {sign}{rate:.2f}%
-                    </span>
-                </div>
-                <div style="flex: 1; text-align: right; font-size: 14px; color: #A1887F; font-weight: 700;">
-                    {volume:,.0f}억
-                </div>
-            </div>
-            """
+            # HTML 카드 레이아웃 수정본
+card = f"""
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; margin-bottom: 8px; border-radius: 10px; border: 1px solid #0f171e; background-color: #15202B; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); overflow: hidden;">
+    <div style="flex: 2; text-align: left; min-width: 0;">  <div style="font-size: 15px; font-weight: 900; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            {name} <span style="font-size: 11px; color: #FF9800; margin-left: 2px; font-weight: 700;">{market_cap:,.0f}억</span>
+        </div>
+        <div style="font-size: 11px; font-weight: 700; color: #00E676; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{sector}</div>
+    </div>
+    <div style="flex: 0.8; text-align: right; font-size: 15px; font-weight: 800; color: #ff4d4d; white-space: nowrap;">
+        {price:,.0f}
+    </div>
+    <div style="flex: 1; text-align: right; white-space: nowrap;">
+        <span style="color: {color}; background-color: {bg_color}; padding: 3px 6px; border-radius: 6px; font-size: 12px; font-weight: bold;">
+            {sign}{rate:.2f}%
+        </span>
+    </div>
+    <div style="flex: 0.8; text-align: right; font-size: 13px; color: #A1887F; font-weight: 700; white-space: nowrap;">
+        {volume:,.0f}억
+    </div>
+</div>
+"""
+            
             html_content += card
         
         st.markdown(html_content, unsafe_allow_html=True)
