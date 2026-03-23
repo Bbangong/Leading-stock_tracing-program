@@ -22,9 +22,11 @@ st.divider()
 
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQygCBp6noqOTPG2tKVFDrB_PrZsRoDSHQQt9bwF8ZRi-pwiBzVrpKClIPLBBOFCnNWJwHabzkrUzgF/pub?gid=0&single=true&output=csv"
 
+
 def to_number(value, default=0):
     num = pd.to_numeric(value, errors="coerce")
     return default if pd.isna(num) else num
+
 
 def clean_stock_code(value):
     if pd.isna(value):
@@ -33,6 +35,7 @@ def clean_stock_code(value):
     if code.endswith(".0"):
         code = code[:-2]
     return code.zfill(6) if code.isdigit() else code
+
 
 try:
     df = pd.read_csv(CSV_URL, dtype={"종목코드": str})
@@ -65,11 +68,13 @@ try:
             )
             sign = "+" if rate > 0 else ""
 
-            code_display = f'<span style="font-size:12px; color:#B0BEC5; font-weight:600;">({code})</span>' if code else ""
+            code_display = (
+                f'<span style="font-size:12px; color:#B0BEC5; font-weight:600;">({code})</span>'
+                if code else ""
+            )
 
-card_html = f"""
+            card_html = f"""
 <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-radius:12px; background-color:#15202B; border:1px solid #2A3644; box-shadow:0px 4px 6px rgba(0,0,0,0.2);">
-
     <div style="flex:1.65; min-width:0;">
         <div style="font-size:15px; font-weight:800; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
             {name} {code_display}
@@ -81,7 +86,6 @@ card_html = f"""
     </div>
 
     <div style="flex:1.55; display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-left:12px; padding-right:4px;">
-
         <div style="display:flex; flex-direction:column; align-items:flex-end; justify-content:center;">
             <div style="font-size:11px; color:#ff4d4d; font-weight:600; line-height:1; margin-bottom:4px;">현재가</div>
             <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px;">
@@ -97,7 +101,6 @@ card_html = f"""
             <div style="font-size:13px; color:#FFFF00; font-weight:700; white-space:nowrap;">{volume:,.0f}억</div>
         </div>
     </div>
-
 </div>
 """
             card_list.append(card_html)
@@ -106,7 +109,7 @@ card_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
 </head>
 <body style="margin:0; padding:0; background:transparent;">
     <div style="display:flex; flex-direction:column; gap:10px;">
