@@ -1,13 +1,13 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import time
 import html
-import textwrap
 
 # 1. 화면 설정
 st.set_page_config(page_title="실시간 주도주", page_icon="🔥", layout="centered")
 
-# 2. 전체 배경 아이보리 설정
+# 2. 전체 배경
 st.markdown("""
 <style>
     .stApp { background-color: #FDFBF0; }
@@ -35,16 +35,16 @@ def clean_stock_code(value):
     return code.zfill(6) if code.isdigit() else code
 
 try:
-    # 종목코드를 문자열로 읽어야 앞자리 0 유지됨
     df = pd.read_csv(CSV_URL, dtype={"종목코드": str})
 
     if df.empty:
         st.info("📉 데이터 대기 중... 장 시작 후 종목이 포착되면 나타납니다.")
     else:
-        # 거래대금 순 정렬
         if "거래대금" in df.columns:
             df["거래대금"] = pd.to_numeric(df["거래대금"], errors="coerce").fillna(0)
             df = df.sort_values(by="거래대금", ascending=False)
+
+        card_list = []
 
         for _, row in df.iterrows():
             name = html.escape(str(row.get("종목명", "종목미상")))
@@ -65,49 +65,62 @@ try:
             )
             sign = "+" if rate > 0 else ""
 
-            code_display = (
-                f'<span style="font-size:12px; color:#B0BEC5; font-weight:600;">({code})</span>'
-                if code else ""
-            )
+            code_display = f'<span style="font-size:12px; color:#B0BEC5; font-weight:600;">({code})</span>' if code else ""
 
-            # HTML 앞 공백 제거가 중요
-            card_html = textwrap.dedent(f"""
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; margin-bottom:10px; border-radius:12px; background-color:#15202B; border:1px solid #2A3644; box-shadow:0px 4px 6px rgba(0,0,0,0.2);">
+            card_html = f"""
+<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-radius:12px; background-color:#15202B; border:1px solid #2A3644; box-shadow:0px 4px 6px rgba(0,0,0,0.2);">
 
-                <div style="flex:1.65; min-width:0;">
-                    <div style="font-size:15px; font-weight:800; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                        {name} {code_display}
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px; margin-top:4px; font-size:11px; white-space:nowrap; overflow:hidden;">
-                        <div style="color:#FF9800; font-weight:700; flex-shrink:0;">시총 {market_cap:,.0f}억</div>
-                        <div style="color:#00E676; overflow:hidden; text-overflow:ellipsis;">{sector}</div>
-                    </div>
-                </div>
+    <div style="flex:1.65; min-width:0;">
+        <div style="font-size:15px; font-weight:800; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            {name} {code_display}
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:4px; font-size:11px; white-space:nowrap; overflow:hidden;">
+            <div style="color:#FF9800; font-weight:700; flex-shrink:0;">시총 {market_cap:,.0f}억</div>
+            <div style="color:#00E676; overflow:hidden; text-overflow:ellipsis;">{sector}</div>
+        </div>
+    </div>
 
-                <div style="flex:1.55; display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-left:12px; padding-right:4px;">
-
-                    <div style="text-align:right;">
-                        <div style="font-size:11px; color:#ff4d4d; font-weight:600; margin-bottom:2px;">현재가</div>
-                        <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
-                            <div style="font-size:15px; font-weight:700; color:#ff4d4d; white-space:nowrap;">{price:,.0f}</div>
-                            <div style="color:{color}; background-color:{bg_color}; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; white-space:nowrap;">
-                                {sign}{rate:.2f}%
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="text-align:right; min-width:78px;">
-                        <div style="font-size:11px; color:#FFFF00; font-weight:600; margin-bottom:2px;">거래대금</div>
-                        <div style="font-size:13px; color:#FFFF00; font-weight:700; white-space:nowrap;">{volume:,.0f}억</div>
-                    </div>
-
+    <div style="flex:1.55; display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-left:12px; padding-right:4px;">
+        <div style="text-align:right;">
+            <div style="font-size:11px; color:#ff4d4d; font-weight:600; margin-bottom:2px;">현재가</div>
+            <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
+                <div style="font-size:15px; font-weight:700; color:#ff4d4d; white-space:nowrap;">{price:,.0f}</div>
+                <div style="color:{color}; background-color:{bg_color}; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; white-space:nowrap;">
+                    {sign}{rate:.2f}%
                 </div>
             </div>
-            """).strip()
+        </div>
 
-            st.markdown(card_html, unsafe_allow_html=True)
+        <div style="text-align:right; min-width:78px;">
+            <div style="font-size:11px; color:#FFFF00; font-weight:600; margin-bottom:2px;">거래대금</div>
+            <div style="font-size:13px; color:#FFFF00; font-weight:700; white-space:nowrap;">{volume:,.0f}억</div>
+        </div>
+    </div>
 
-    # 3분 자동 새로고침
+</div>
+"""
+            card_list.append(card_html)
+
+        final_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body style="margin:0; padding:0; background:transparent;">
+    <div style="display:flex; flex-direction:column; gap:10px;">
+        {''.join(card_list)}
+    </div>
+</body>
+</html>
+"""
+
+        components.html(
+            final_html,
+            height=max(120, len(df) * 92 + 20),
+            scrolling=False
+        )
+
     time.sleep(180)
     st.rerun()
 
