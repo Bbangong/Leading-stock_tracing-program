@@ -67,7 +67,7 @@ try:
 
             code_display = f'<span style="font-size:12px; color:#B0BEC5; font-weight:600;">({code})</span>' if code else ""
 
-            card_html = f"""
+card_html = f"""
 <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-radius:12px; background-color:#15202B; border:1px solid #2A3644; box-shadow:0px 4px 6px rgba(0,0,0,0.2);">
 
     <div style="flex:1.65; min-width:0;">
@@ -81,11 +81,12 @@ try:
     </div>
 
     <div style="flex:1.55; display:flex; justify-content:flex-end; align-items:center; gap:14px; margin-left:12px; padding-right:4px;">
-        <div style="text-align:right;">
-            <div style="font-size:11px; color:#ff4d4d; font-weight:600; margin-bottom:2px;">현재가</div>
-            <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
-                <div style="font-size:15px; font-weight:700; color:#ff4d4d; white-space:nowrap;">{price:,.0f}</div>
-                <div style="color:{color}; background-color:{bg_color}; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:bold; white-space:nowrap;">
+
+        <div style="display:flex; flex-direction:column; align-items:flex-end; justify-content:center;">
+            <div style="font-size:11px; color:#ff4d4d; font-weight:600; line-height:1; margin-bottom:4px;">현재가</div>
+            <div style="display:flex; align-items:center; justify-content:flex-end; gap:6px;">
+                <div style="font-size:15px; font-weight:700; color:#ff4d4d; white-space:nowrap; line-height:1;">{price:,.0f}</div>
+                <div style="color:{color}; background-color:{bg_color}; padding:2px 7px; border-radius:6px; font-size:11px; font-weight:bold; white-space:nowrap; line-height:1.1;">
                     {sign}{rate:.2f}%
                 </div>
             </div>
