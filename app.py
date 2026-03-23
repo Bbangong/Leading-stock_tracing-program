@@ -70,11 +70,21 @@ try:
 <span style="color: #00E676; overflow: hidden; text-overflow: ellipsis;">{sector}</span>
 </div>
 </div>
-<div style="flex: 0.8; text-align: right; font-size: 15px; font-weight: 700; color: #ff4d4d;">{price:,.0f}</div>
+
+<div style="flex: 0.8; text-align: right;">
+<div style="font-size: 11px; color: #ff4d4d; font-weight: 600; margin-bottom: 2px;">현재가</div>
+<div style="font-size: 15px; font-weight: 700; color: #ff4d4d;">{price:,.0f}</div>
+</div>
+
 <div style="flex: 1; text-align: right;">
+<div style="font-size: 11px; color: {color}; font-weight: 600; margin-bottom: 2px;">등락률</div>
 <span style="color: {color}; background-color: {bg_color}; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: bold;">{sign}{rate:.2f}%</span>
 </div>
-<div style="flex: 0.8; text-align: right; font-size: 13px; color: #FFFF00; font-weight: 700;">{volume:,.0f}억</div>
+
+<div style="flex: 0.8; text-align: right;">
+<div style="font-size: 11px; color: #FFFF00; font-weight: 600; margin-bottom: 2px;">거래대금</div>
+<div style="font-size: 13px; color: #FFFF00; font-weight: 700;">{volume:,.0f}억</div>
+</div>
 </div>"""
             # 루프 안에서 즉시 렌더링 (공백 에러 방지)
             st.markdown(card_html, unsafe_allow_html=True)
