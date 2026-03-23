@@ -12,7 +12,7 @@ TELEGRAM_TOKEN = "8787017558:AAH-CboDNE7QziHnB1RRDRK5F6XBcEKh-6M"
 CHAT_ID = "5524071246"
 
 # 구글 시트 웹 앱 URL (사용자님 링크 유지)
-GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzUJzNWl4vUxVmIJN1zA4HhHIVKo0aeo_PO7uyL_GYRKUR6FS8dBpLl2dXzRBe9UBEd/exec"
+GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzaGZC8d9l1DC7WMQ9E3tvGl9JSoS4JowZ5F9b96O9HI9UHJupH7YjY3rkips20I0al/exec"
 
 # --- [2. 키움 토큰 발급] ---
 def get_access_token():
@@ -106,7 +106,7 @@ def process_leading_stocks(token):
             rate = round(rate, 2)
 
             # 테스트용 100억 기준
-            if amount >= 20000 and rate >= 4.0:
+            if amount >=  10000 and rate >= 4.0:
                 price, mkt_cap, sector = get_stock_detail(token, code)
                 
                 # 시총이 0이면 리스트 API 데이터에서 한 번 더 시도
@@ -119,6 +119,7 @@ def process_leading_stocks(token):
 
                 valid_stocks.append({
                     "name": name,
+                    "code": code,
                     "price": price,
                     "rate": rate,
                     "amount": int(amount // 100),
@@ -157,7 +158,8 @@ async def main():
         now = datetime.now()
         
         # 🚨 [시간 설정 구간] -> true로 바뀌면 계쏙 수집함.
-        if now.weekday() < 5 and (9, 0) <= (now.hour, now.minute) <= (15, 30):
+        if True: 
+        #now.weekday() < 5 and (8, 30) <= (now.hour, now.minute) <= (15, 30):
             print(f"\n[ {now.strftime('%H:%M:%S')} ] 데이터 수집 중...")
             token = get_access_token()
             
