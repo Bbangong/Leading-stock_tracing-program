@@ -61,7 +61,7 @@ try:
 
             # 🎯 [카드 레이아웃] 문자열 앞에 공백이 없도록 바짝 붙여서 작성
             card_html = f"""<div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; margin-bottom: 10px; border-radius: 12px; background-color: #15202B; border: 1px solid #2A3644; box-shadow: 0px 4px 6px rgba(0,0,0,0.2); overflow: hidden;">
-<div style="flex: 2; text-align: left; min-width: 0;">
+<div style="flex: 1.7; text-align: left; min-width: 0;">
 <div style="font-size: 15px; font-weight: 800; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 {name} {code_display}
 </div>
@@ -71,19 +71,20 @@ try:
 </div>
 </div>
 
-<div style="flex: 0.8; text-align: right;">
-<div style="font-size: 11px; color: #ff4d4d; font-weight: 600; margin-bottom: 2px;">현재가</div>
-<div style="font-size: 15px; font-weight: 700; color: #ff4d4d;">{price:,.0f}</div>
-</div>
+<div style="flex: 1.6; display: flex; justify-content: flex-end; align-items: center; gap: 10px; text-align: right;">
+    <div style="text-align: right;">
+        <div style="font-size: 11px; color: #ff4d4d; font-weight: 600; margin-bottom: 2px;">현재가</div>
+        <div style="font-size: 15px; font-weight: 700; color: #ff4d4d;">{price:,.0f}</div>
+    </div>
 
-<div style="flex: 1; text-align: right;">
-<div style="font-size: 11px; color: {color}; font-weight: 600; margin-bottom: 2px;">등락률</div>
-<span style="color: {color}; background-color: {bg_color}; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: bold;">{sign}{rate:.2f}%</span>
-</div>
+    <div style="padding-top: 14px;">
+        <span style="color: {color}; background-color: {bg_color}; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; white-space: nowrap;">{sign}{rate:.2f}%</span>
+    </div>
 
-<div style="flex: 0.8; text-align: right;">
-<div style="font-size: 11px; color: #FFFF00; font-weight: 600; margin-bottom: 2px;">거래대금</div>
-<div style="font-size: 13px; color: #FFFF00; font-weight: 700;">{volume:,.0f}억</div>
+    <div style="text-align: right; min-width: 72px;">
+        <div style="font-size: 11px; color: #FFFF00; font-weight: 600; margin-bottom: 2px;">거래대금</div>
+        <div style="font-size: 13px; color: #FFFF00; font-weight: 700;">{volume:,.0f}억</div>
+    </div>
 </div>
 </div>"""
             # 루프 안에서 즉시 렌더링 (공백 에러 방지)
